@@ -145,20 +145,22 @@ EOF
 # Download dan install image OS
 echo -e "${YELLOW}Mendownload file $PILIHOS...${NC}"
 
-# Ambil link download langsung
+# Dapatkan URL sebenarnya
 REAL_URL=$(curl -Ls -o /dev/null -w %{url_effective} "$PILIHOS/download")
 
-# Cek validitas URL
-if [[ -z "$REAL_URL" ]]; then
-    echo -e "${RED}Gagal mendapatkan tautan unduhan langsung.${NC}"
-    exit 1
-fi
-
-# Unduh langsung ke file sementara
+# Cek apakah file benar-benar besar (bukan 36 KB)
 echo -e "${YELLOW}Mengunduh dari: $REAL_URL${NC}"
 curl -L "$REAL_URL" -o /tmp/windows_image.img
 
-# Flash ke disk
+# Cek ukuran
+FILE_SIZE=$(stat -c %s /tmp/windows_image.img)
+if [ "$FILE_SIZE" -lt 100000000 ]; then
+    echo -e "${RED}File terlalu kecil! Mungkin bukan file Windows image asli. Gagal menginstal.${NC}"
+    exit 1
+fi
+
+# Lanjutkan hanya jika file besar
+echo -e "${CYAN}Menulis image ke /dev/vda...${NC}"
 dd if=/tmp/windows_image.img of=/dev/vda bs=3M status=progress
 
 
