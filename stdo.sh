@@ -152,8 +152,3 @@ cd "/mnt/ProgramData/Microsoft/Windows/Start Menu/Programs/"
 cd Start* || cd start*; \
 wget https://nixpoin.com/ChromeSetup.exe
 cp -f /tmp/net.bat net.bat
-
-# Shutdown
-echo -e "${RED}Your server will turn off in 3 seconds...${RESET}"
-sleep 3
-poweroff
