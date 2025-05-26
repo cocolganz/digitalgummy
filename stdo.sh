@@ -143,13 +143,24 @@ exit
 EOF
 
 # Download dan install image OS
-echo "Mendownload file $PILIHOS..."
+echo -e "${YELLOW}Mendownload file $PILIHOS...${NC}"
+
+# Ambil link download langsung
 REAL_URL=$(curl -Ls -o /dev/null -w %{url_effective} "$PILIHOS/download")
 
+# Cek validitas URL
 if [[ -z "$REAL_URL" ]]; then
     echo -e "${RED}Gagal mendapatkan tautan unduhan langsung.${NC}"
     exit 1
 fi
+
+# Unduh langsung ke file sementara
+echo -e "${YELLOW}Mengunduh dari: $REAL_URL${NC}"
+curl -L "$REAL_URL" -o /tmp/windows_image.img
+
+# Flash ke disk
+dd if=/tmp/windows_image.img of=/dev/vda bs=3M status=progress
+
 
 echo -e "${YELLOW}Mengunduh dari: $REAL_URL${NC}"
 curl -L "$REAL_URL" | gunzip | dd of=/dev/vda bs=3M status=progress
