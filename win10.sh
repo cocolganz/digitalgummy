@@ -3,7 +3,7 @@
 set -e
 
 # =============== CONFIG ====================
-IMAGE_URL="http://178.128.115.15:8080/win10.ISO"
+IMAGE_URL="https://sourceforge.net/projects/nixpoin/files/windows2019DO.gz/download"
 DISK="/dev/vda"
 TMP_DIR="/mnt/tmpwindows"
 IMG_GZ="$TMP_DIR/windows2019DO.img.gz"
