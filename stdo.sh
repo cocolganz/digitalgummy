@@ -144,7 +144,15 @@ EOF
 
 # Download dan install image OS
 echo "Mendownload file $PILIHOS..."
-wget --no-check-certificate -O- $PILIHOS | gunzip | dd of=/dev/vda bs=3M status=progress
+REAL_URL=$(curl -Ls -o /dev/null -w %{url_effective} "$PILIHOS/download")
+
+if [[ -z "$REAL_URL" ]]; then
+    echo -e "${RED}Gagal mendapatkan tautan unduhan langsung.${NC}"
+    exit 1
+fi
+
+echo -e "${YELLOW}Mengunduh dari: $REAL_URL${NC}"
+curl -L "$REAL_URL" | gunzip | dd of=/dev/vda bs=3M status=progress
 
 # Mount dan copy file setup
 mount.ntfs-3g /dev/vda2 /mnt
