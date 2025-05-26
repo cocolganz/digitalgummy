@@ -81,7 +81,7 @@ case $pilihan in
         echo -e "${CYAN}Memulai instalasi Windows 2016...${NC}"
         ;;
     3)
-        PILIHOS="https://sourceforge.net/projects/nixpoin/files/windows2019.gz"
+        PILIHOS="https://sourceforge.net/projects/nixpoin/files/windows2019DO.gz"
         echo -e "${CYAN}Memulai instalasi Windows 2019...${NC}"
         ;;
     4)
